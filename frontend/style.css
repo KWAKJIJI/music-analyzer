@@ -43,6 +43,12 @@ body {
   line-height: 1.6;
 }
 
+.page-header .analysis-note {
+  margin-top: 8px;
+  color: var(--text);
+  font-weight: 700;
+}
+
 .mode-tabs {
   display: inline-flex;
   gap: 6px;
@@ -78,6 +84,7 @@ body {
 .summary-panel,
 .chart-block,
 .score-panel,
+.method-panel,
 .audio-grid > div {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -195,6 +202,26 @@ button:disabled {
 
 .score-grid strong {
   font-size: 28px;
+}
+
+.method-panel {
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.method-panel h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.method-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.method-panel p + p {
+  margin-top: 8px;
 }
 
 .charts {
