@@ -177,10 +177,17 @@ function renderComparisonResults(data) {
   rhythmScore.textContent = formatScore(data.rhythm_similarity);
 
   renderComparisonSummary(data.summary);
+  renderCompareWaveform(data.song_a.waveform, data.song_b.waveform);
+  renderWaveform("compareWaveformAChart", data.song_a.waveform);
+  renderWaveform("compareWaveformBChart", data.song_b.waveform);
   renderCompareMelody(data.song_a.melody, data.song_b.melody);
+  renderMelody("compareMelodyAChart", data.song_a.melody);
+  renderMelody("compareMelodyBChart", data.song_b.melody);
   renderHarmony("compareHarmonyAChart", data.song_a.harmony);
   renderHarmony("compareHarmonyBChart", data.song_b.harmony);
   renderCompareRhythm(data.song_a.rhythm, data.song_b.rhythm);
+  renderRhythm("compareRhythmAChart", data.song_a.rhythm);
+  renderRhythm("compareRhythmBChart", data.song_b.rhythm);
 }
 
 function renderWaveform(chartId, waveform) {
@@ -216,6 +223,32 @@ function renderMelody(chartId, melody) {
       },
     ],
     baseLayout("시간 (초)", "Pitch (Hz)"),
+    { responsive: true }
+  );
+}
+
+function renderCompareWaveform(waveformA, waveformB) {
+  Plotly.newPlot(
+    "compareWaveformChart",
+    [
+      {
+        x: waveformA.times,
+        y: waveformA.amplitudes,
+        type: "scatter",
+        mode: "lines",
+        line: { color: "#1876d1", width: 1 },
+        name: "곡 A",
+      },
+      {
+        x: waveformB.times,
+        y: waveformB.amplitudes,
+        type: "scatter",
+        mode: "lines",
+        line: { color: "#d1495b", width: 1 },
+        name: "곡 B",
+      },
+    ],
+    baseLayout("시간 (초)", "진폭"),
     { responsive: true }
   );
 }
