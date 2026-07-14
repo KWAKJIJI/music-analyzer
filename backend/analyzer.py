@@ -5,7 +5,7 @@ import librosa
 import numpy as np
 
 
-MAX_DURATION_SECONDS = 60
+MAX_DURATION_SECONDS = 30
 TARGET_SAMPLE_RATE = 22050
 WAVEFORM_POINTS = 2500
 
@@ -38,10 +38,10 @@ def _downsample_waveform(y: np.ndarray, sr: int) -> dict[str, list[float]]:
 
 
 def _analyze_melody(y: np.ndarray, sr: int) -> dict[str, list[float | None]]:
-    frame_length = 2048
-    hop_length = 256
+    frame_length = 1024
+    hop_length = 512
 
-    f0, voiced_flag, voiced_prob = librosa.pyin(
+    f0 = librosa.yin(
         y,
         fmin=librosa.note_to_hz("C2"),
         fmax=librosa.note_to_hz("C7"),
@@ -50,18 +50,21 @@ def _analyze_melody(y: np.ndarray, sr: int) -> dict[str, list[float | None]]:
         hop_length=hop_length,
     )
     times = librosa.times_like(f0, sr=sr, hop_length=hop_length)
-    pitches = np.where(voiced_flag, f0, np.nan)
+    rms = librosa.feature.rms(y=y, frame_length=frame_length, hop_length=hop_length)[0]
+    threshold = np.percentile(rms, 35)
+    confidence = np.clip(rms / (np.max(rms) + 1e-9), 0, 1)
+    pitches = np.where(rms >= threshold, f0, np.nan)
 
     return {
         "times": times.astype(float).tolist(),
         "pitches": _to_list(pitches),
-        "confidence": _to_list(voiced_prob),
+        "confidence": _to_list(confidence),
     }
 
 
 def _analyze_harmony(y: np.ndarray, sr: int) -> dict[str, list]:
     hop_length = 512
-    chroma = librosa.feature.chroma_cqt(y=y, sr=sr, hop_length=hop_length)
+    chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=hop_length)
     times = librosa.times_like(chroma, sr=sr, hop_length=hop_length)
 
     return {
