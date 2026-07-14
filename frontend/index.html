@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>무료 음악 분석기</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <h1>무료 음악 분석기</h1>
+        <p>MP3 또는 WAV 파일을 업로드해서 파형, 멜로디, 화성, 리듬 특징을 확인하세요.</p>
+      </header>
+
+      <section class="control-panel">
+        <label class="file-picker">
+          <span>음악 파일 업로드</span>
+          <input id="fileInput" type="file" accept="audio/*" />
+        </label>
+        <button id="analyzeButton" type="button">분석 시작</button>
+        <p id="statusMessage" class="status" role="status"></p>
+      </section>
+
+      <audio id="audioPlayer" class="audio-player" controls></audio>
+
+      <section class="charts">
+        <div class="chart-block">
+          <h2>원본 파형 그래프</h2>
+          <div id="waveformChart" class="chart"></div>
+        </div>
+
+        <div class="chart-block">
+          <h2>멜로디 Pitch Contour 그래프</h2>
+          <div id="melodyChart" class="chart"></div>
+        </div>
+
+        <div class="chart-block">
+          <h2>화성 Chromagram 그래프</h2>
+          <div id="harmonyChart" class="chart"></div>
+        </div>
+
+        <div class="chart-block">
+          <h2>리듬 Onset Strength + Beat 그래프</h2>
+          <div id="rhythmChart" class="chart"></div>
+        </div>
+      </section>
+
+      <section class="summary-panel">
+        <h2>분석 요약</h2>
+        <dl>
+          <div>
+            <dt>BPM</dt>
+            <dd id="summaryBpm">-</dd>
+          </div>
+          <div>
+            <dt>감지된 beat 개수</dt>
+            <dd id="summaryBeats">-</dd>
+          </div>
+          <div>
+            <dt>감지된 onset 개수</dt>
+            <dd id="summaryOnsets">-</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

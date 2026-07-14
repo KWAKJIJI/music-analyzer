@@ -1,0 +1,177 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --text: #18202a;
+  --muted: #657080;
+  --line: #d9dee7;
+  --accent: #1876d1;
+  --accent-dark: #0f5ca8;
+  --danger: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, "Noto Sans KR", sans-serif;
+}
+
+.app-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 36px 0 56px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  letter-spacing: 0;
+}
+
+.page-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.control-panel,
+.summary-panel,
+.chart-block {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.control-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.file-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+}
+
+.file-picker span {
+  font-weight: 700;
+}
+
+button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 18px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.status {
+  flex-basis: 100%;
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+.audio-player {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.charts {
+  display: grid;
+  gap: 18px;
+}
+
+.chart-block {
+  padding: 16px;
+}
+
+.chart-block h2,
+.summary-panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.chart {
+  width: 100%;
+  height: 360px;
+}
+
+.summary-panel {
+  margin-top: 18px;
+  padding: 16px;
+}
+
+.summary-panel dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.summary-panel div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.summary-panel dt {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.summary-panel dd {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: min(100% - 20px, 1120px);
+    padding-top: 24px;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .summary-panel dl {
+    grid-template-columns: 1fr;
+  }
+
+  .chart {
+    height: 320px;
+  }
+}

@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: music-analyzer-backend
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: ALLOWED_ORIGINS
+        value: https://music-analyzer-frontend.onrender.com
+
+  - type: static
+    name: music-analyzer-frontend
+    rootDir: frontend
+    buildCommand: ""
+    staticPublishPath: .
