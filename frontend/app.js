@@ -1,5 +1,5 @@
 const DEFAULT_LOCAL_API_BASE_URL = "http://localhost:8000";
-const DEFAULT_RENDER_API_BASE_URL = "https://music-analyzer-backend.onrender.com";
+const DEFAULT_RENDER_API_BASE_URL = "https://music-analyzer-backend-ka44.onrender.com";
 const API_BASE_URL =
   window.MUSIC_ANALYZER_API_BASE_URL ||
   localStorage.getItem("musicAnalyzerApiBaseUrl") ||
