@@ -43,9 +43,42 @@ body {
   line-height: 1.6;
 }
 
+.mode-tabs {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 4px;
+}
+
+.tab-button {
+  min-height: 38px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.mode-panel {
+  display: none;
+}
+
+.mode-panel.active {
+  display: block;
+}
+
 .control-panel,
 .summary-panel,
-.chart-block {
+.chart-block,
+.score-panel,
+.audio-grid > div {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -102,9 +135,66 @@ button:disabled {
   color: var(--danger);
 }
 
+.audio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.audio-grid > div {
+  padding: 16px;
+}
+
+.audio-grid h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
 .audio-player {
   width: 100%;
   margin-bottom: 18px;
+}
+
+.audio-grid .audio-player {
+  margin-bottom: 0;
+}
+
+.score-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.score-main,
+.score-grid div {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.score-main span,
+.score-grid span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.score-main strong {
+  font-size: 42px;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.score-grid strong {
+  font-size: 28px;
 }
 
 .charts {
@@ -157,6 +247,13 @@ button:disabled {
   font-weight: 700;
 }
 
+.summary-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
 @media (max-width: 720px) {
   .app-shell {
     width: min(100% - 20px, 1120px);
@@ -169,6 +266,18 @@ button:disabled {
 
   .summary-panel dl {
     grid-template-columns: 1fr;
+  }
+
+  .audio-grid,
+  .score-panel,
+  .score-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
   }
 
   .chart {

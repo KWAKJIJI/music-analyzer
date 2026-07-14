@@ -3,66 +3,149 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>무료 음악 분석기</title>
+    <title>무료 음악 유사도 분석기</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
   </head>
   <body>
     <main class="app-shell">
       <header class="page-header">
-        <h1>무료 음악 분석기</h1>
-        <p>MP3 또는 WAV 파일을 업로드해서 파형, 멜로디, 화성, 리듬 특징을 확인하세요.</p>
+        <h1>무료 음악 유사도 분석기</h1>
+        <p>음악 파일의 멜로디, 화성, 리듬 특징을 분석하고 두 곡의 구조적 유사도를 비교합니다.</p>
       </header>
 
-      <section class="control-panel">
-        <label class="file-picker">
-          <span>음악 파일 업로드</span>
-          <input id="fileInput" type="file" accept="audio/*" />
-        </label>
-        <button id="analyzeButton" type="button">분석 시작</button>
-        <p id="statusMessage" class="status" role="status"></p>
+      <nav class="mode-tabs" aria-label="분석 모드">
+        <button class="tab-button active" type="button" data-mode="single">단일 곡 분석</button>
+        <button class="tab-button" type="button" data-mode="compare">두 곡 비교</button>
+      </nav>
+
+      <section id="singleMode" class="mode-panel active">
+        <section class="control-panel">
+          <label class="file-picker">
+            <span>음악 파일 업로드</span>
+            <input id="fileInput" type="file" accept="audio/*" />
+          </label>
+          <button id="analyzeButton" type="button">분석 시작</button>
+          <p id="statusMessage" class="status" role="status"></p>
+        </section>
+
+        <audio id="audioPlayer" class="audio-player" controls></audio>
+
+        <section class="charts">
+          <div class="chart-block">
+            <h2>원본 파형 그래프</h2>
+            <div id="waveformChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>멜로디 Pitch Contour 그래프</h2>
+            <div id="melodyChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>화성 Chromagram 그래프</h2>
+            <div id="harmonyChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>리듬 Onset Strength + Beat 그래프</h2>
+            <div id="rhythmChart" class="chart"></div>
+          </div>
+        </section>
+
+        <section class="summary-panel">
+          <h2>분석 요약</h2>
+          <dl>
+            <div>
+              <dt>BPM</dt>
+              <dd id="summaryBpm">-</dd>
+            </div>
+            <div>
+              <dt>감지된 beat 개수</dt>
+              <dd id="summaryBeats">-</dd>
+            </div>
+            <div>
+              <dt>감지된 onset 개수</dt>
+              <dd id="summaryOnsets">-</dd>
+            </div>
+          </dl>
+        </section>
       </section>
 
-      <audio id="audioPlayer" class="audio-player" controls></audio>
+      <section id="compareMode" class="mode-panel">
+        <section class="control-panel compare-controls">
+          <label class="file-picker">
+            <span>곡 A 업로드</span>
+            <input id="compareFileA" type="file" accept="audio/*" />
+          </label>
+          <label class="file-picker">
+            <span>곡 B 업로드</span>
+            <input id="compareFileB" type="file" accept="audio/*" />
+          </label>
+          <button id="compareButton" type="button">비교 분석 시작</button>
+          <p id="compareStatusMessage" class="status" role="status"></p>
+        </section>
 
-      <section class="charts">
-        <div class="chart-block">
-          <h2>원본 파형 그래프</h2>
-          <div id="waveformChart" class="chart"></div>
-        </div>
-
-        <div class="chart-block">
-          <h2>멜로디 Pitch Contour 그래프</h2>
-          <div id="melodyChart" class="chart"></div>
-        </div>
-
-        <div class="chart-block">
-          <h2>화성 Chromagram 그래프</h2>
-          <div id="harmonyChart" class="chart"></div>
-        </div>
-
-        <div class="chart-block">
-          <h2>리듬 Onset Strength + Beat 그래프</h2>
-          <div id="rhythmChart" class="chart"></div>
-        </div>
-      </section>
-
-      <section class="summary-panel">
-        <h2>분석 요약</h2>
-        <dl>
+        <section class="audio-grid">
           <div>
-            <dt>BPM</dt>
-            <dd id="summaryBpm">-</dd>
+            <h2>곡 A</h2>
+            <audio id="compareAudioA" class="audio-player" controls></audio>
           </div>
           <div>
-            <dt>감지된 beat 개수</dt>
-            <dd id="summaryBeats">-</dd>
+            <h2>곡 B</h2>
+            <audio id="compareAudioB" class="audio-player" controls></audio>
           </div>
-          <div>
-            <dt>감지된 onset 개수</dt>
-            <dd id="summaryOnsets">-</dd>
+        </section>
+
+        <section class="score-panel">
+          <div class="score-main">
+            <span>최종 유사도</span>
+            <strong id="overallScore">-</strong>
           </div>
-        </dl>
+          <div class="score-grid">
+            <div>
+              <span>멜로디</span>
+              <strong id="melodyScore">-</strong>
+            </div>
+            <div>
+              <span>화성</span>
+              <strong id="harmonyScore">-</strong>
+            </div>
+            <div>
+              <span>리듬</span>
+              <strong id="rhythmScore">-</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="charts">
+          <div class="chart-block">
+            <h2>멜로디 비교 그래프</h2>
+            <div id="compareMelodyChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>곡 A Chromagram</h2>
+            <div id="compareHarmonyAChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>곡 B Chromagram</h2>
+            <div id="compareHarmonyBChart" class="chart"></div>
+          </div>
+
+          <div class="chart-block">
+            <h2>리듬 비교 그래프</h2>
+            <div id="compareRhythmChart" class="chart"></div>
+          </div>
+        </section>
+
+        <section class="summary-panel">
+          <h2>분석 해석</h2>
+          <ul id="comparisonSummary" class="summary-list">
+            <li>두 곡을 업로드하고 비교 분석을 시작하세요.</li>
+          </ul>
+        </section>
       </section>
     </main>
 
