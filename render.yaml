@@ -12,8 +12,8 @@ services:
       - key: ALLOWED_ORIGINS
         value: https://music-analyzer-frontend.onrender.com
 
-  - type: static
+  - type: web
+    runtime: static
     name: music-analyzer-frontend
     rootDir: frontend
-    buildCommand: ""
     staticPublishPath: .
